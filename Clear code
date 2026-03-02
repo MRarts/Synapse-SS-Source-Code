@@ -1,0 +1,5 @@
+local box = script.Parent.Parent.TextBox
+local button = script.Parent
+button.MouseButton1Click:Connect(function()
+ box.Text = ""
+end)
